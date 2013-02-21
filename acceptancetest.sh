@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /opt/pdi/owd/push_server/test/functions/
+cd /opt/pdi/owd/push_server/test/functional/
 resultado=$(node E2E.js)
 if [ "$resultado" = "" ]; then
  echo "Todo correcto"
