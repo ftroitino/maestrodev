@@ -17,10 +17,10 @@
     ensure => running,
     enable => true,
   }
-  package { 'erlang':
-        ensure => installed,
-        require => Yumrepo["RepoRM_Binarios"],
-  }
+  #package { 'erlang':
+  #      ensure => installed,
+  #      require => Yumrepo["RepoRM_Binarios"],
+  #}
   package { 'rabbitmq-server':
         ensure => installed,
         require => Yumrepo["RepoRM_Binarios"],
