@@ -40,9 +40,14 @@
     command =>"/usr/bin/sudo /usr/sbin/rabbitmq-plugins enable amqp_client",
     require => Package["rabbitmq-server"],
   }
+  
+  exec {"config_rabbit":
+    command =>"/bin/echo '[{rabbit, [{disk_free_limit, {mem_relative, 0.1}}]}].' > /etc/rabbitmq/rabbitmq.config",
+    require => Exec["module_amqp"],
+  }
   exec {"start_rabbit":
     command =>"/usr/bin/nohup /usr/sbin/rabbitmq-server start  > /dev/null &",
-    require => Exec["module_amqp"],
+    require => Exec["config_rabbit"],
   }
   yumrepo { 'Repo_PushServer':
     descr    => 'Repo del Push-Server',
