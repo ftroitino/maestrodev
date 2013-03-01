@@ -43,9 +43,14 @@
         ensure => installed,
         require => Yumrepo["Repo_PushServer"],
   }
+  exec {"wait":
+    command =>"/usr/bin/sleep 180",
+    require => Service["mongod"],
+  }
   service { 'pushserverd':
     require => Package['PDI-OWD-Push_Server'],
     ensure => running,
     #enable => true,
+    require => Exec["wait"],
   }
 
