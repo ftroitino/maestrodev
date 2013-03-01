@@ -12,8 +12,16 @@
         ensure => installed,
         require => Yumrepo["RepoRM_Binarios"],
   }
+  file { "/home/sysadmin/mongo":
+    ensure => "directory",
+    require => Package["mongo-10gen-server"],
+  }
+  exec {"change_mongo_path":
+    command => '/bin/sed -i -e "s/var\/lib\/mongo/home\/sysadmin\/mongo/g" /etc/mongod.conf',
+    require => File["/home/sysadmin/mongo"],
+  }
   service { 'mongod':
-    require => Package['mongo-10gen-server'],
+    require => Exec['change_mongo_path'],
     ensure => running,
     enable => true,
   }
@@ -44,13 +52,11 @@
         require => Yumrepo["Repo_PushServer"],
   }
   exec {"wait":
-    command =>"/usr/bin/sleep 180",
+    command =>"/bin/sleep 180",
     require => Service["mongod"],
   }
   service { 'pushserverd':
-    require => Package['PDI-OWD-Push_Server'],
+    require => [ Package['PDI-OWD-Push_Server'], Exec["wait"] ],
     ensure => running,
     #enable => true,
-    require => Exec["wait"],
   }
-
