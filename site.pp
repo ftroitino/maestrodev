@@ -4,6 +4,12 @@
     gpgcheck => 0,
     baseurl  => 'http://ci-rmtest.hi.inet/RepoRM_Binarios/',
   }
+
+  exec {"disable_epel":
+    command =>"/bin/sed -i -e 's/enabled=1/enabled=0/g' /etc/yum.repos.d/epel.repo",
+    require => Yumrepo["RepoRM_Binarios"],
+  }
+
   package { 'mongo-10gen':
         ensure => installed,
         require => Yumrepo["RepoRM_Binarios"],
@@ -34,7 +40,7 @@
   #}
   package { 'rabbitmq-server':
         ensure => installed,
-        require => Yumrepo["RepoRM_Binarios"],
+        require => [ Yumrepo["RepoRM_Binarios"], Exec["disable_epel"] ],
   }
   exec {"module_amqp":
     command =>"/usr/bin/sudo /usr/sbin/rabbitmq-plugins enable amqp_client",
