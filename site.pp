@@ -2,7 +2,8 @@
     descr    => 'Repo de la disciplina de RSE',
     enabled  => 1,
     gpgcheck => 0,
-    baseurl  => 'http://ci-rmtest.hi.inet/RepoRM_Binarios/',
+    #baseurl  => 'http://ci-rmtest.hi.inet/RepoRM_Binarios/',
+    baseurl  => 'http://artifacts.hi.inet/Commun_RE/',
   }
 
   exec {"disable_epel":
@@ -59,7 +60,7 @@
     descr    => 'Repo del Push-Server',
     enabled  => 1,
     gpgcheck => 0,
-    baseurl  => 'http://ci-owd-push/RepoRM/',
+    baseurl  => 'http://artifacts.hi.inet/Open_Web_Devices/push_server/1.0/candidate/',
   }
   package { 'PDI-OWD-Push_Server':
         ensure => installed,
