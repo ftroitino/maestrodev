@@ -2,8 +2,8 @@
     descr    => 'Repo de la disciplina de RSE',
     enabled  => 1,
     gpgcheck => 0,
-    #baseurl  => 'http://ci-rmtest.hi.inet/RepoRM_Binarios/',
-    baseurl  => 'http://artifacts.hi.inet/Open_Web_Devices/push_server/commun/',
+    baseurl  => 'http://ci-rmtest.hi.inet/RepoRM_Binarios/',
+    #baseurl  => 'http://artifacts.hi.inet/Open_Web_Devices/push_server/commun/',
 
   }
 
