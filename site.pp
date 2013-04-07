@@ -69,7 +69,7 @@
         require => Yumrepo["Repo_PushServer"],
   }
   exec {"wait":
-    command =>"/bin/sleep 1",
+    command =>"/bin/sleep 60",
     require => Service["mongod"],
   }
   service { 'pushserverd':
