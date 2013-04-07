@@ -32,7 +32,7 @@
     require => File["/home/mongo"],
   }
   exec {"mongo_no_journal":
-    command => '/bin/sed -i -e "s/#nojournal = true/nojournal = true/g" /etc/mongod.conf',
+    command => '/bin/sed -i -e "s/# nojournal = true/nojournal = true/g" /etc/mongod.conf',
     require => File["/home/mongo"],
   }
   service { 'mongod':
