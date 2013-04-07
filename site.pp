@@ -7,10 +7,10 @@
 
   }
 
-  #exec {"disable_epel":
-  #  command =>"/bin/sed -i -e 's/enabled=1/enabled=0/g' /etc/yum.repos.d/epel.repo",
-  #  require => Yumrepo["RepoRM_Binarios"],
-  #}
+  exec {"disable_epel":
+    command =>"/bin/sed -i -e 's/enabled=1/enabled=0/g' /etc/yum.repos.d/epel.repo; sudo yum clean all",
+    require => Yumrepo["RepoRM_Binarios"],
+  }
 
   package { 'mongo-10gen':
         ensure => installed,
@@ -31,8 +31,12 @@
     command => '/bin/sed -i -e "s/var\/lib\/mongo/home\/mongo/g" /etc/mongod.conf',
     require => File["/home/mongo"],
   }
+  exec {"mongo_no_journal":
+    command => '/bin/sed -i -e "s/#nojournal = true/nojournal = true/g" /etc/mongod.conf',
+    require => File["/home/mongo"],
+  }
   service { 'mongod':
-    require => Exec['change_mongo_path'],
+    require =>[ Exec['change_mongo_path'], Exec['mongo_no_journal'] ], 
     ensure => running,
     enable => true,
   }
@@ -42,8 +46,8 @@
   #}
   package { 'rabbitmq-server':
         ensure => installed,
-       # require => [ Yumrepo["RepoRM_Binarios"], Exec["disable_epel"] ],
-       require => Yumrepo["RepoRM_Binarios"],
+       require => [ Yumrepo["RepoRM_Binarios"], Exec["disable_epel"] ],
+      # require => Yumrepo["RepoRM_Binarios"],
   }
   exec {"module_amqp":
     command =>"/usr/bin/sudo /usr/sbin/rabbitmq-plugins enable amqp_client",
