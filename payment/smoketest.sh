@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo "*** PAYMENT ENABLER STATUS ENVIRONMENT ***"
 # Ensure working path...
 cd $(dirname $(readlink -f $0))
